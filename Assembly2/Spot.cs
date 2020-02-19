@@ -12,7 +12,6 @@ namespace Assembly2
         internal List<IVehicle> vehicles = new List<IVehicle>();
         private int capacity;
 
-
         /// <summary>
         /// Returns sum of occupied space of current vehicles in the spot instance.
         /// </summary>
@@ -42,14 +41,14 @@ namespace Assembly2
         /// </summary>
         internal int GetAvailableCapacity
         {
-           get => (this.capacity - OccupiedCapacity()); 
+            get => (this.capacity - OccupiedCapacity());
         }
 
         internal int Capacity
         {
             get => this.capacity;
         }
-        
+
         /// <summary>
         /// Adds one vehicle to the internal list of spot. Returns true if vehicle has been added, false if it was not a success
         /// </summary>
@@ -65,13 +64,12 @@ namespace Assembly2
             }
             return false;
         }
-        
+
         /// <summary>
         /// Removes a vehicle from the spot and returns it as an IVehicle.
         /// </summary>
         /// <param name="regNum"></param>
         /// <returns></returns>
-
         internal IVehicle RemoveVehicle(string regNum)
         {
             foreach (var vehicle in this.vehicles)
@@ -101,7 +99,7 @@ namespace Assembly2
         {
             List<IVehicle> cloneVehicles = new List<IVehicle>();
 
-            foreach(var vehicle in this.vehicles)
+            foreach (var vehicle in this.vehicles)
             {
                 cloneVehicles.Add(vehicle);
             }
