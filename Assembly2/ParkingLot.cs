@@ -23,12 +23,14 @@ namespace Assembly2
             this.capacity = 4;
             InitializeSpots(this.size, this.capacity);
         }
+
         public ParkingLot(int size)
         {
             this.size = size;
             this.capacity = 4;
             InitializeSpots(this.size, this.capacity);
         }
+
         public ParkingLot(int size, int capacity)
         {
             this.size = size;
@@ -56,6 +58,7 @@ namespace Assembly2
             }
             return false;
         }
+
         /// <summary>
         /// Adds one individual spot to the parkinglot.
         /// </summary>
@@ -91,7 +94,6 @@ namespace Assembly2
                 }
             }
             return false;
-
         }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace Assembly2
         /// <returns></returns>
         public bool Park(IVehicle vehicle, int spot)
         {
-            if(spot < 0 || spot > (this.spots.Count))
+            if (spot < 0 || spot > (this.spots.Count))
             {
                 return false;
             }
@@ -126,14 +128,13 @@ namespace Assembly2
         IVehicle RemoveVehicle(string regNum)
         {
             int spot = FindVehicle(regNum);
-            if(spot == -1)
+            if (spot == -1)
             {
                 return null;
             }
             IVehicle vehicle = this.spots[spot].RemoveVehicle(regNum);
             return vehicle;
         }
-
 
         /// <summary>
         /// Moves a vehicle from one spot to another. Return true if the vehicle has been succesfully removed. False if fail.
@@ -144,7 +145,7 @@ namespace Assembly2
         public bool MoveVehicle(string regNum, int spot)
         {
             int currentSpot = FindVehicle(regNum);
-            if(currentSpot == -1) 
+            if (currentSpot == -1)
             {
                 return false;
             }
@@ -157,19 +158,22 @@ namespace Assembly2
             return false;
         }
 
-
+        /// <summary>
+        /// Optimizes all the currently parked vehicles
+        /// </summary>
+        /// <returns></returns>
         public List<string> OptimizeParkingLot()
         {
             List<string> workOrders = new List<string>();
             StringBuilder sb = new StringBuilder();
 
-            for(int i = 0; i < this.spots.Count; i++)
+            for (int i = 0; i < this.spots.Count; i++)
             {
-                if(this.spots[i].GetAvailableCapacity > 0)
+                if (this.spots[i].GetAvailableCapacity > 0)
                 {
-                    for(int j = i; j < this.spots.Count; j++)
+                    for (int j = i; j < this.spots.Count; j++)
                     {
-                        if(this.spots[j].GetAvailableCapacity > 0 && this.spots[j].GetAvailableCapacity < this.spots[j].Capacity)
+                        if (this.spots[j].GetAvailableCapacity > 0 && this.spots[j].GetAvailableCapacity < this.spots[j].Capacity)
                         {
                             List<IVehicle> moveVehicles = this.spots[j].ContentClone();
                             Spot targetSpotClone = this.spots[i].CloneSpot();
@@ -211,9 +215,22 @@ namespace Assembly2
             return -1;
         }
 
+        /// <summary>
+        /// To be used for printing all currently parked vehicles
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return base.ToString();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var spot in spots)
+            {
+                foreach (var vehicle in spot.vehicles)
+                {
+                    sb.Append($"\n{vehicle.ToString()}");
+                }
+            }
+            return sb.ToString();
         }
     }
 }
