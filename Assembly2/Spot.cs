@@ -44,9 +44,14 @@ namespace Assembly2
         {
            get => (this.capacity - OccupiedCapacity()); 
         }
+
+        internal int Capacity
+        {
+            get => this.capacity;
+        }
         
         /// <summary>
-        /// Adds one vehicle to the internal list of spot
+        /// Adds one vehicle to the internal list of spot. Returns true if vehicle has been added, false if it was not a success
         /// </summary>
         /// <param name="vehicle"></param>
         /// <returns></returns>
@@ -62,7 +67,7 @@ namespace Assembly2
         }
         
         /// <summary>
-        /// R
+        /// Removes a vehicle from the spot and returns it as an IVehicle.
         /// </summary>
         /// <param name="regNum"></param>
         /// <returns></returns>
@@ -90,6 +95,24 @@ namespace Assembly2
                 }
             }
             return null;
+        }
+
+        internal List<IVehicle> ContentClone()
+        {
+            List<IVehicle> cloneVehicles = new List<IVehicle>();
+
+            foreach(var vehicle in this.vehicles)
+            {
+                cloneVehicles.Add(vehicle);
+            }
+            return cloneVehicles;
+        }
+
+        internal Spot CloneSpot()
+        {
+            Spot clone = this;
+
+            return clone;
         }
 
         public override string ToString()

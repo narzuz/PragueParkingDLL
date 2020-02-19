@@ -61,7 +61,7 @@ namespace Assembly2
         /// </summary>
         /// <param name="capacity"></param>
         /// <returns></returns>
-        public bool AddSpot(int capacity) 
+        public bool AddSpot(int capacity)
         {
             this.spots.Add(new Spot(capacity));
             if (this.spots.Count > 1)
@@ -71,34 +71,144 @@ namespace Assembly2
             return false;
         }
 
+        /// <summary>
+        /// Parks a IVehicle object on first available spot
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="spot"></param>
+        /// <returns></returns>
         public bool Park(IVehicle vehicle)
         {
-            
+            if (FindVehicle(vehicle.RegNum) != -1)
+            {
+                return false;
+            }
+            foreach (var spot in spots)
+            {
+                if (spot.AddVehicle(vehicle))
+                {
+                    return true;
+                }
+            }
+            return false;
+
         }
 
-        public int Park(IVehicle vehicle, int spot)
+        /// <summary>
+        /// Parks a IVehicle object on a specific spot.
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <param name="spot"></param>
+        /// <returns></returns>
+        public bool Park(IVehicle vehicle, int spot)
         {
-
+            if(spot < 0 || spot > (this.spots.Count))
+            {
+                return false;
+            }
+            int target = spot;
+            if (FindVehicle(vehicle.RegNum) != -1)
+            {
+                return false;
+            }
+            if (this.spots[target].AddVehicle(vehicle))
+            {
+                return true;
+            }
+            return false;
         }
 
-        public bool MoveVehicle(string regNum, Spot spot)
+        /// <summary>
+        /// Removes a vehicle from the internal list of Spot and also delivers the Vehicle object. Return null if vehicle does not exsist.
+        /// </summary>
+        /// <param name="regNum"></param>
+        /// <returns></returns>
+        IVehicle RemoveVehicle(string regNum)
         {
-
+            int spot = FindVehicle(regNum);
+            if(spot == -1)
+            {
+                return null;
+            }
+            IVehicle vehicle = this.spots[spot].RemoveVehicle(regNum);
+            return vehicle;
         }
 
-        public int FindVehicle(string regNum)
+
+        /// <summary>
+        /// Moves a vehicle from one spot to another. Return true if the vehicle has been succesfully removed. False if fail.
+        /// </summary>
+        /// <param name="regNum"></param>
+        /// <param name="spot"></param>
+        /// <returns></returns>
+        public bool MoveVehicle(string regNum, int spot)
         {
-
+            int currentSpot = FindVehicle(regNum);
+            if(currentSpot == -1) 
+            {
+                return false;
+            }
+            IVehicle vehicle = this.spots[currentSpot].FindVehicle(regNum);
+            if (this.spots[spot].AddVehicle(vehicle))
+            {
+                this.spots[currentSpot].RemoveVehicle(regNum);
+                return true;
+            }
+            return false;
         }
+
 
         public List<string> OptimizeParkingLot()
         {
+            List<string> workOrders = new List<string>();
+            StringBuilder sb = new StringBuilder();
 
+            for(int i = 0; i < this.spots.Count; i++)
+            {
+                if(this.spots[i].GetAvailableCapacity > 0)
+                {
+                    for(int j = i; j < this.spots.Count; j++)
+                    {
+                        if(this.spots[j].GetAvailableCapacity > 0 && this.spots[j].GetAvailableCapacity < this.spots[j].Capacity)
+                        {
+                            List<IVehicle> moveVehicles = this.spots[j].ContentClone();
+                            Spot targetSpotClone = this.spots[i].CloneSpot();
+                            foreach (var vehicle in moveVehicles)
+                            {
+                                if (targetSpotClone.AddVehicle(vehicle))
+                                {
+                                    this.spots[i].AddVehicle(this.spots[j].RemoveVehicle(vehicle.RegNum));
+                                    sb.Append("\nVehicle " + vehicle.RegNum);
+                                    sb.Append(" has been moved to spot " + i + 1);
+                                    sb.Append(" from spot " + (j + 1));
+
+                                    workOrders.Add(sb.ToString());
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            return workOrders;
         }
 
-        IVehicle RemoveVehicle()
+        /// <summary>
+        /// Searches for a vehicle by its registration number. Return spot number if found, returns -1 if vehicle does not exist
+        /// </summary>
+        /// <param name="regNum"></param>
+        /// <returns></returns>
+        public int FindVehicle(string regNum)
         {
-
+            for (int i = 0; i < this.spots.Count; i++)
+            {
+                if (this.spots[i] != null)
+                {
+                    int spotNum = i;
+                    return spotNum;
+                }
+            }
+            return -1;
         }
 
         public override string ToString()

@@ -17,9 +17,18 @@ namespace Assembly1
             this.regNum = regNum;
             this.type = type;
         }
-        public Type Type { get; }
-        public string RegNum { get; }
-        public DateTime Arrival { get; }
+        public Type Type 
+        {
+            get => this.type;
+        }
+        public string RegNum 
+        { 
+            get => this.regNum; 
+        }
+        public DateTime Arrival 
+        { 
+            get => this.arrival; 
+        }
 
         public decimal Getcost {
             get
