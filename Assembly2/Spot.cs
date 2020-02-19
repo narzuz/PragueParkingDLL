@@ -11,6 +11,10 @@ namespace Assembly2
     {
         internal List<IVehicle> vehicles = new List<IVehicle>();
         private int capacity;
+<<<<<<< HEAD
+=======
+        private int GetOccupiedCapacity => GetOccupiedCapacityMethod();
+>>>>>>> 3cc5c37a6d91933b6301764de207b4d9601a86da
 
 
         /// <summary>
@@ -30,6 +34,7 @@ namespace Assembly2
         internal Spot()
         {
         }
+
         internal Spot(int capacity)
         {
             this.capacity = capacity;
@@ -59,6 +64,7 @@ namespace Assembly2
             }
             return false;
         }
+<<<<<<< HEAD
         
         /// <summary>
         /// R
@@ -66,10 +72,14 @@ namespace Assembly2
         /// <param name="regNum"></param>
         /// <returns></returns>
         internal IVehicle RemoveVehicle(string regNum)
+=======
+
+        IVehicle RemoveVehicle(string regNum)
+>>>>>>> 3cc5c37a6d91933b6301764de207b4d9601a86da
         {
             foreach (var vehicle in this.vehicles)
             {
-                if(vehicle.RegNum == regNum)
+                if (vehicle.RegNum == regNum)
                 {
                     vehicles.Remove(vehicle);
                     return vehicle;
@@ -82,7 +92,7 @@ namespace Assembly2
         {
             foreach (var vehicle in this.vehicles)
             {
-                if(vehicle.RegNum == regNum)
+                if (vehicle.RegNum == regNum)
                 {
                     return vehicle;
                 }
