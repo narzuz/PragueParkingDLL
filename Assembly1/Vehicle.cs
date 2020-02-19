@@ -10,19 +10,14 @@ namespace Assembly1
     {
         private string regNum;
         private DateTime arrival;
-
+        Type type;
         
-        public Vehicle(string regNum, Enum type)
+        public Vehicle(string regNum, Type type)
         {
             this.regNum = regNum;
-            this.Type = type;
+            this.type = type;
         }
-        private enum type
-        {
-            MC = 2,
-            Car = 4,
-        }
-        public Enum Type { get; }
+        public Type Type { get; }
         public string RegNum { get; }
         public DateTime Arrival { get; }
 
