@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assembly1;
 
 namespace Assembly2
 {
@@ -68,6 +69,41 @@ namespace Assembly2
                 return true;
             }
             return false;
+        }
+
+        public bool Park(IVehicle vehicle)
+        {
+            
+        }
+
+        public int Park(IVehicle vehicle, int spot)
+        {
+
+        }
+
+        public bool MoveVehicle(string regNum, Spot spot)
+        {
+
+        }
+
+        public int FindVehicle(string regNum)
+        {
+
+        }
+
+        public List<string> OptimizeParkingLot()
+        {
+
+        }
+
+        IVehicle RemoveVehicle()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
