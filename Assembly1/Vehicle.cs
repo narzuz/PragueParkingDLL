@@ -8,6 +8,20 @@ namespace Assembly1
 {
     public class Vehicle : IVehicle
     {
+        private string regNum;
+        private DateTime arrival;
+
+        
+        public Vehicle(string regNum, Enum type)
+        {
+            this.regNum = regNum;
+            this.Type = type;
+        }
+        private enum type
+        {
+            MC = 2,
+            Car = 4,
+        }
         public Enum Type { get; }
         public string RegNum { get; }
         public DateTime Arrival { get; }
@@ -17,12 +31,11 @@ namespace Assembly1
             {
                 throw new NotImplementedException();
             }
-            //heello
         }
 
         public override string ToString()
         {
-            return $"{this.Type}\n{this.RegNum}\n{this.Arrival}";
+            return $"{this.Type}\n{this.regNum}\n{this.arrival}";
         }
     }
 

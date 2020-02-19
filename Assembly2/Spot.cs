@@ -9,11 +9,15 @@ namespace Assembly2
 {
     internal class Spot
     {
-        private List<IVehicle> vehicles;
+        internal List<IVehicle> vehicles = new List<IVehicle>();
         private int capacity;
-        private int GetOccupiedCapacity { get => GetOccupiedCapacityMethod(); }
 
-        int GetOccupiedCapacityMethod()
+
+        /// <summary>
+        /// Returns sum of occupied space of current vehicles in the spot instance.
+        /// </summary>
+        /// <returns></returns>
+        private int OccupiedCapacity()
         {
             int count = 0;
             foreach (var vehicle in vehicles)
@@ -31,10 +35,24 @@ namespace Assembly2
             this.capacity = capacity;
         }
 
-        bool AddVehicle(IVehicle vehicle)
+
+        /// <summary>
+        /// Read-Only, shows current available capacity.
+        /// </summary>
+        internal int GetAvailableCapacity
+        {
+           get => (this.capacity - OccupiedCapacity()); 
+        }
+        
+        /// <summary>
+        /// Adds one vehicle to the internal list of spot
+        /// </summary>
+        /// <param name="vehicle"></param>
+        /// <returns></returns>
+        internal bool AddVehicle(IVehicle vehicle)
         {
             int vehicleSize = (int)vehicle.Type;
-            if (vehicleSize < GetAvailableCapacity())
+            if (vehicleSize < GetAvailableCapacity)
             {
                 vehicles.Add(vehicle);
                 return true;
@@ -42,9 +60,14 @@ namespace Assembly2
             return false;
         }
         
-        IVehicle RemoveVehicle(string regNum)
+        /// <summary>
+        /// R
+        /// </summary>
+        /// <param name="regNum"></param>
+        /// <returns></returns>
+        internal IVehicle RemoveVehicle(string regNum)
         {
-            foreach (var vehicle in vehicles)
+            foreach (var vehicle in this.vehicles)
             {
                 if(vehicle.RegNum == regNum)
                 {
@@ -55,26 +78,30 @@ namespace Assembly2
             return null;
         }
 
-        bool FindVehicle(string regNum)
+        internal IVehicle FindVehicle(string regNum)
         {
-            foreach (var vehicle in vehicles)
+            foreach (var vehicle in this.vehicles)
             {
                 if(vehicle.RegNum == regNum)
                 {
-                    return true;
+                    return vehicle;
                 }
             }
-            return false;
+            return null;
         }
 
-        int GetAvailableCapacity()
+        internal override string ToString()
         {
-            int availableCapacity = (this.capacity - GetOccupiedCapacity);
-            return availableCapacity;
-        }
-
-        public override string ToString()
-        {
+            StringBuilder sb = new StringBuilder();
+            if (this.vehicles.Count > 0)
+            {
+                foreach (var vehicles in this.vehicles)
+                {
+                    sb.Append(vehicles.ToString());
+                }
+                string output = sb.ToString();
+                return output;
+            }
             return base.ToString();
         }
     }

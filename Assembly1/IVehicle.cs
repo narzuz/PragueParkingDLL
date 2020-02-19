@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assembly1
 {
+    internal enum Type { Mc = 2, Car = 4 };
     public interface IVehicle
     {
-        Enum Type { get; }
+        Type type { get; }
         DateTime Arrival { get; }
         string RegNum { get; }
         decimal Getcost { get; }
