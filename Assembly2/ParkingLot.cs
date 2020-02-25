@@ -125,7 +125,7 @@ namespace Assembly2
         /// </summary>
         /// <param name="regNum"></param>
         /// <returns></returns>
-        IVehicle RemoveVehicle(string regNum)
+        public IVehicle RemoveVehicle(string regNum)
         {
             int spot = FindVehicle(regNum);
             if (spot == -1)
@@ -171,7 +171,7 @@ namespace Assembly2
             {
                 if (this.spots[i].GetAvailableCapacity > 0)
                 {
-                    for (int j = i; j < this.spots.Count; j++)
+                    for (int j = i + 1; j < this.spots.Count; j++)
                     {
                         if (this.spots[j].GetAvailableCapacity > 0 && this.spots[j].GetAvailableCapacity < this.spots[j].Capacity)
                         {
@@ -183,8 +183,9 @@ namespace Assembly2
                                 {
                                     this.spots[i].AddVehicle(this.spots[j].RemoveVehicle(vehicle.RegNum));
                                     sb.Append("\nVehicle " + vehicle.RegNum);
-                                    sb.Append(" has been moved to spot " + i + 1);
-                                    sb.Append(" from spot " + (j + 1));
+                                    sb.Append(" has been moved from spot " + (j + 1));
+                                    sb.Append(" to spot " + (i + 1));
+
 
                                     workOrders.Add(sb.ToString());
                                 }
@@ -206,10 +207,10 @@ namespace Assembly2
         {
             for (int i = 0; i < this.spots.Count; i++)
             {
-                if (this.spots[i] != null)
+                if (this.spots[i].FindVehicle(regNum) != null)
                 {
-                    int spotNum = i;
-                    return spotNum;
+                        int spotNum = i;
+                        return spotNum;
                 }
             }
             return -1;
@@ -225,10 +226,7 @@ namespace Assembly2
 
             foreach (var spot in spots)
             {
-                foreach (var vehicle in spot.vehicles)
-                {
-                    sb.Append($"\n{vehicle.ToString()}");
-                }
+                sb.Append(spot.ToString() + "\n");
             }
             return sb.ToString();
         }

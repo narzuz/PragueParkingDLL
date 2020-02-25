@@ -57,7 +57,7 @@ namespace Assembly2
         internal bool AddVehicle(IVehicle vehicle)
         {
             int vehicleSize = (int)vehicle.Type;
-            if (vehicleSize < GetAvailableCapacity)
+            if (vehicleSize <= GetAvailableCapacity)
             {
                 vehicles.Add(vehicle);
                 return true;
@@ -83,6 +83,11 @@ namespace Assembly2
             return null;
         }
 
+        /// <summary>
+        /// Returns Vehicle if correct vehicle is found. Returns null if vehicle is not found.
+        /// </summary>
+        /// <param name="regNum"></param>
+        /// <returns></returns>
         internal IVehicle FindVehicle(string regNum)
         {
             foreach (var vehicle in this.vehicles)
@@ -95,6 +100,10 @@ namespace Assembly2
             return null;
         }
 
+        /// <summary>
+        /// Returns a clone of the spots contents
+        /// </summary>
+        /// <returns></returns>
         internal List<IVehicle> ContentClone()
         {
             List<IVehicle> cloneVehicles = new List<IVehicle>();
@@ -106,10 +115,14 @@ namespace Assembly2
             return cloneVehicles;
         }
 
+        /// <summary>
+        /// Clones spot. Used for optimization.
+        /// </summary>
+        /// <returns></returns>
         internal Spot CloneSpot()
         {
-            Spot clone = this;
-
+            Spot clone = new Spot(this.capacity);
+            clone.vehicles = ContentClone();
             return clone;
         }
 
@@ -125,7 +138,7 @@ namespace Assembly2
                 string output = sb.ToString();
                 return output;
             }
-            return base.ToString();
+            return "Empty";
         }
     }
 }

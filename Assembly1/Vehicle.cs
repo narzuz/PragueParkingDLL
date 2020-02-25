@@ -16,6 +16,7 @@ namespace Assembly1
         {
             this.regNum = regNum;
             this.type = type;
+            this.arrival = DateTime.Now;
         }
         public Type Type 
         {
@@ -39,7 +40,12 @@ namespace Assembly1
 
         public override string ToString()
         {
-            return $"{this.Type}\n{this.regNum}\n{this.arrival}";
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("\n" + this.regNum);
+            sb.Append("\n" + this.type.ToString());
+            sb.Append("\n" + this.arrival.ToString());
+            return sb.ToString();
         }
     }
 
